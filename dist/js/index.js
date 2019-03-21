@@ -2,8 +2,14 @@
 ;
 var getInputData = function (form) {
     var inputElement = form.querySelector('input[type="text"]');
-    var inputValue = inputElement ? inputElement.value : "";
-    return { title: inputValue, description: "do stuff" };
+    var inputValue = inputElement ? inputElement.value : '';
+    return { title: inputValue };
+};
+var clearInputAfterSubmit = function (form) {
+    var inputElement = form.querySelector('input[type="text"]');
+    if (inputElement !== null) {
+        inputElement.value = "";
+    }
 };
 window.addEventListener('DOMContentLoaded', function () {
     console.log('content loaded');
@@ -14,6 +20,7 @@ window.addEventListener('DOMContentLoaded', function () {
             event.preventDefault();
             var inputData = getInputData(form);
             console.log('form submitted', inputData);
+            clearInputAfterSubmit(form);
         });
     }
 });

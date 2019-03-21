@@ -9,6 +9,14 @@ let getInputData = (form:HTMLElement): Todo => {
 	return { title: inputValue };
 };
 
+let clearInputAfterSubmit = (form:HTMLElement) => {
+	let inputElement: HTMLInputElement|null = form.querySelector('input[type="text"]');
+
+	if (inputElement !== null) {
+		inputElement.value = "";
+	}
+};
+
 window.addEventListener('DOMContentLoaded', () => {
 	console.log('content loaded');
 
@@ -20,6 +28,7 @@ window.addEventListener('DOMContentLoaded', () => {
 			event.preventDefault();
 			let inputData = getInputData(<HTMLElement>form);
 			console.log('form submitted', inputData);
+			clearInputAfterSubmit(<HTMLElement>form);
 		});
 	}
 });
