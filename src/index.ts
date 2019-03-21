@@ -17,6 +17,15 @@ let clearInputAfterSubmit = (form:HTMLElement) => {
 	}
 };
 
+let postTodo = (inputData: Todo) => {
+	let listElement = document.createElement('li');
+	listElement.innerText = inputData.title;
+	let todoList = document.getElementById('todo-list')
+	if (todoList !== null) {
+		todoList.appendChild(listElement);
+	}
+};
+
 window.addEventListener('DOMContentLoaded', () => {
 	console.log('content loaded');
 
@@ -29,6 +38,7 @@ window.addEventListener('DOMContentLoaded', () => {
 			let inputData = getInputData(<HTMLElement>form);
 			console.log('form submitted', inputData);
 			clearInputAfterSubmit(<HTMLElement>form);
+			postTodo(inputData);
 		});
 	}
 });

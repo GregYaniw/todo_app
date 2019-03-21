@@ -11,6 +11,14 @@ var clearInputAfterSubmit = function (form) {
         inputElement.value = "";
     }
 };
+var postTodo = function (inputData) {
+    var listElement = document.createElement('li');
+    listElement.innerText = inputData.title;
+    var todoList = document.getElementById('todo-list');
+    if (todoList !== null) {
+        todoList.appendChild(listElement);
+    }
+};
 window.addEventListener('DOMContentLoaded', function () {
     console.log('content loaded');
     var form = document.getElementById('todo-form');
@@ -21,6 +29,7 @@ window.addEventListener('DOMContentLoaded', function () {
             var inputData = getInputData(form);
             console.log('form submitted', inputData);
             clearInputAfterSubmit(form);
+            postTodo(inputData);
         });
     }
 });
