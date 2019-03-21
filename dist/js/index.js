@@ -1,8 +1,9 @@
 "use strict";
 ;
-var getInputData = function () {
-    var output = { title: 'dishes' };
-    return output;
+var getInputData = function (form) {
+    var inputElement = form.querySelector('input[type="text"]');
+    var inputValue = inputElement ? inputElement.value : "";
+    return { title: inputValue, description: "do stuff" };
 };
 window.addEventListener('DOMContentLoaded', function () {
     console.log('content loaded');
@@ -11,7 +12,7 @@ window.addEventListener('DOMContentLoaded', function () {
     if (form !== null) {
         form.addEventListener('submit', function (event) {
             event.preventDefault();
-            var inputData = getInputData();
+            var inputData = getInputData(form);
             console.log('form submitted', inputData);
         });
     }
