@@ -2,6 +2,15 @@ interface Todo {
 	title: string;
 };
 
+interface User {
+	name: string;
+	appName: string; 
+}
+
+interface TodoApp<T> {
+	user: T;
+}
+
 let createInputElement = (inputValue: string): HTMLInputElement => {
 	let inputElement = document.createElement('input');
 	inputElement.type = 'text';
@@ -123,7 +132,7 @@ let postTodo = (inputData: Todo) => {
 			selectUpdateButton.setAttribute('style', 'display: none');
 			inputElement.setAttribute('style', 'display: none');
 			selectCompleteButton.setAttribute('style', 'display: inline-block');
-			selectSpanElement.setAttribute('style', 'display: inline-block');
+			selectSpanElement.setAttribute('style', 'display: block');
 			selectEditButton.setAttribute('style', 'display: inline-block');
 
 		});
@@ -132,7 +141,7 @@ let postTodo = (inputData: Todo) => {
 			selectCompleteButton.setAttribute('style', 'display: none');
 			selectSpanElement.setAttribute('style', 'display: none');
 			selectEditButton.setAttribute('style', 'display: none');
-			selectInputElement.setAttribute('style', 'display: inline-block');
+			selectInputElement.setAttribute('style', 'display: block');
 			selectUpdateButton.setAttribute('style', 'display: inline-block');
 		});
 		
@@ -143,12 +152,25 @@ let postTodo = (inputData: Todo) => {
 };
 
 window.addEventListener('DOMContentLoaded', () => {
+
+	let appTitle: TodoApp<User> = {
+		user: {
+			name: 'Greg',
+			appName: 'Todo List',
+		}
+	}
+
+	document.getElementsByTagName('h1')[0].innerText = `Welcome to ${ appTitle.user.name }'s simple TypeScript ${ appTitle.user.appName } App`;
+
 	let form: HTMLElement|null = document.getElementById('todo-form');
 
 	if (form !== null) {
 		form.addEventListener('submit', (event) => {
 			event.preventDefault();
 			let inputData = getInputData(<HTMLElement>form);
+			if (inputData.title === '') {
+				return;
+			}
 			clearInputAfterSubmit(<HTMLElement>form);
 			postTodo(inputData);
 		});

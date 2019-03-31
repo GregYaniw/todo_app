@@ -104,14 +104,14 @@ var postTodo = function (inputData) {
             selectUpdateButton_1.setAttribute('style', 'display: none');
             inputElement.setAttribute('style', 'display: none');
             selectCompleteButton_1.setAttribute('style', 'display: inline-block');
-            selectSpanElement_1.setAttribute('style', 'display: inline-block');
+            selectSpanElement_1.setAttribute('style', 'display: block');
             selectEditButton_1.setAttribute('style', 'display: inline-block');
         });
         selectEditButton_1.addEventListener('click', function () {
             selectCompleteButton_1.setAttribute('style', 'display: none');
             selectSpanElement_1.setAttribute('style', 'display: none');
             selectEditButton_1.setAttribute('style', 'display: none');
-            selectInputElement_1.setAttribute('style', 'display: inline-block');
+            selectInputElement_1.setAttribute('style', 'display: block');
             selectUpdateButton_1.setAttribute('style', 'display: inline-block');
         });
         selectDeleteButton.addEventListener('click', function () {
@@ -120,11 +120,21 @@ var postTodo = function (inputData) {
     }
 };
 window.addEventListener('DOMContentLoaded', function () {
+    var appTitle = {
+        user: {
+            name: 'Greg',
+            appName: 'Todo List',
+        }
+    };
+    document.getElementsByTagName('h1')[0].innerText = "Welcome to " + appTitle.user.name + "'s simple TypeScript " + appTitle.user.appName + " App";
     var form = document.getElementById('todo-form');
     if (form !== null) {
         form.addEventListener('submit', function (event) {
             event.preventDefault();
             var inputData = getInputData(form);
+            if (inputData.title === '') {
+                return;
+            }
             clearInputAfterSubmit(form);
             postTodo(inputData);
         });
