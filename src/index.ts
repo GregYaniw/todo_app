@@ -6,8 +6,20 @@ let createInputElement = (inputValue: string): HTMLInputElement => {
 	let inputElement = document.createElement('input');
 	inputElement.type = 'text';
 	inputElement.value = inputValue;
+	inputElement.className = 'edit-input';
 	inputElement.setAttribute('style', 'display: none');
 	return inputElement;
+}
+
+let updateTodo = (selectInputElement: HTMLInputElement, selectSpanElement: HTMLSpanElement) => {
+	selectSpanElement.innerText = selectInputElement.value;
+}
+
+let getCompleteButton = (): HTMLButtonElement => {
+	let completeButton = document.createElement('button');
+	completeButton.innerText = 'Mark Complete';
+	completeButton.className = 'complete-button';
+	return completeButton;
 }
 
 class UpdateButton {
@@ -76,6 +88,7 @@ let postTodo = (inputData: Todo) => {
 	let updateButton = new UpdateButton('Update');
 	let editButton = new EditButton('Edit');
 	let deleteButton = new DeleteButton('X');
+	let markCompleteButton = getCompleteButton();
 	let inputElement: HTMLInputElement = createInputElement(inputData.title);
 
 	if (todoList !== null) {
@@ -83,25 +96,43 @@ let postTodo = (inputData: Todo) => {
 		listElement.appendChild(inputElement);
 		listElement.appendChild(updateButton.getUpdateButton());
 		listElement.appendChild(editButton.getEditButton());
+		listElement.appendChild(markCompleteButton);
 		listElement.appendChild(deleteButton.getDeleteButton());
 
-
+		const selectInputElement: HTMLInputElement = listElement.querySelector('input.edit-input');
 		const selectUpdateButton: HTMLButtonElement = listElement.querySelector('button.update-button');
 		const selectEditButton: HTMLButtonElement = listElement.querySelector('button.edit-button');
+		const selectCompleteButton: HTMLButtonElement = listElement.querySelector('button.complete-button');
 		const selectDeleteButton: HTMLButtonElement = listElement.querySelector('button.delete-button');
 		const selectSpanElement: HTMLSpanElement = listElement.querySelector('span');
 
+		selectCompleteButton.addEventListener('click', () => {
+			if (selectCompleteButton.innerText !== 'Mark Incomplete') {
+				selectCompleteButton.innerText = 'Mark Incomplete';
+				selectSpanElement.setAttribute('style', 'text-decoration: line-through');
+				return;
+			}
+			selectCompleteButton.innerText = 'Mark Complete';
+			selectSpanElement.setAttribute('style', 'text-decoration: none');
+
+		});
+
 		selectUpdateButton.addEventListener('click', () => {
+			updateTodo(selectInputElement, selectSpanElement);
 			
+			selectUpdateButton.setAttribute('style', 'display: none');
+			inputElement.setAttribute('style', 'display: none');
+			selectCompleteButton.setAttribute('style', 'display: inline-block');
+			selectSpanElement.setAttribute('style', 'display: inline-block');
+			selectEditButton.setAttribute('style', 'display: inline-block');
 
 		});
 
 		selectEditButton.addEventListener('click', () => {
-			
-			listElement.insertBefore(inputElement, listElement.childNodes[0]);
+			selectCompleteButton.setAttribute('style', 'display: none');
 			selectSpanElement.setAttribute('style', 'display: none');
-
 			selectEditButton.setAttribute('style', 'display: none');
+			selectInputElement.setAttribute('style', 'display: inline-block');
 			selectUpdateButton.setAttribute('style', 'display: inline-block');
 		});
 		
