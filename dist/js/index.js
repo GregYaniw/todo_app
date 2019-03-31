@@ -1,5 +1,16 @@
 "use strict";
 ;
+var DeleteButton = /** @class */ (function () {
+    function DeleteButton(button) {
+        this.button = button;
+    }
+    DeleteButton.prototype.getButton = function () {
+        var deleteButton = document.createElement('button');
+        deleteButton.innerText = this.button;
+        return deleteButton;
+    };
+    return DeleteButton;
+}());
 var getInputData = function (form) {
     var inputElement = form.querySelector('input[type="text"]');
     var inputValue = inputElement ? inputElement.value : '';
@@ -15,8 +26,13 @@ var postTodo = function (inputData) {
     var listElement = document.createElement('li');
     listElement.innerText = inputData.title;
     var todoList = document.getElementById('todo-list');
+    var deleteButton = new DeleteButton('X');
     if (todoList !== null) {
         todoList.appendChild(listElement);
+        listElement.appendChild(deleteButton.getButton());
+        listElement.querySelector('button').addEventListener('click', function () {
+            listElement.parentNode.removeChild(listElement);
+        });
     }
 };
 window.addEventListener('DOMContentLoaded', function () {
@@ -27,9 +43,9 @@ window.addEventListener('DOMContentLoaded', function () {
         form.addEventListener('submit', function (event) {
             event.preventDefault();
             var inputData = getInputData(form);
-            console.log('form submitted', inputData);
             clearInputAfterSubmit(form);
             postTodo(inputData);
         });
     }
+    //let deleteTodo = document.ge
 });
